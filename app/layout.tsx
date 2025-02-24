@@ -7,6 +7,10 @@ import ThemeSwitch from "@/components/theme-switch";
 import ThemeContextProvider from "@/context/theme-context";
 import { Toaster } from "react-hot-toast";
 
+import type React from "react"
+import { DialogProvider } from "@/context/dialog-context"
+
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -29,12 +33,14 @@ export default function RootLayout({
 
         <ThemeContextProvider>
           <ActiveSectionContextProvider>
+          <DialogProvider>
             <Header />
             {children}
             <Footer />
 
             <Toaster position="top-right" />
             <ThemeSwitch />
+            </DialogProvider>
           </ActiveSectionContextProvider>
         </ThemeContextProvider>
       </body>
