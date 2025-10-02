@@ -1,56 +1,60 @@
-"use client"
+"use client";
 
-import { useRef, useState } from "react"
-import Image from "next/image"
-import { motion, useScroll, useTransform } from "framer-motion"
-import { Dialog, DialogContent, DialogPortal } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { X } from "lucide-react"
-import { cn } from "@/lib/utils"
-import FormattedDescription from "@/components/FormattedDescription"
-import { useDialog } from "@/context/dialog-context"
-import Lightbox from "react-image-lightbox"
-import "react-image-lightbox/style.css"
+import { useRef, useState } from "react";
+import Image from "next/image";
+import type { StaticImageData } from "next/image";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Dialog, DialogContent, DialogPortal } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import FormattedDescription from "@/components/FormattedDescription";
+import { useDialog } from "@/context/dialog-context";
+import Lightbox from "react-image-lightbox";
+import "react-image-lightbox/style.css";
+
+type Img = StaticImageData | string;
 
 type ProjectProps = {
-  title: string
-  description: string
-  tags?: string[]
-  imageUrl?: string
-  fulldescription: string
-  images?: string[]
-}
+  title: string;
+  description: string;
+  tags?: readonly string[];      // accept readonly tags
+  imageUrl?: Img;
+  fulldescription: string;
+  images?: readonly Img[];       // <-- accept readonly Img[]
+};
 
 export default function Project({
   title,
   description,
-  tags = [],
+  tags = [] as readonly string[],
   imageUrl = "/placeholder.svg",
   fulldescription,
-  images = [],
+  images = [] as readonly Img[],
 }: ProjectProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [isOpen, setIsOpen] = useState(false)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false)
-  const { setIsDialogOpen } = useDialog()
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const { setIsDialogOpen } = useDialog();
 
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["0 1", "1.33 1"],
-  })
+  });
 
-  const scaleProgess = useTransform(scrollYProgress, [0, 1], [0.8, 1])
-  const opacityProgess = useTransform(scrollYProgress, [0, 1], [0.6, 1])
-
-  // Auto swipe functionality
-  
-
+  const scaleProgess = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
+  const opacityProgess = useTransform(scrollYProgress, [0, 1], [0.6, 1]);
 
   const handleImageClick = (index: number) => {
-    setCurrentImageIndex(index)
-    setIsLightboxOpen(true)
-  }
+    setCurrentImageIndex(index);
+    setIsLightboxOpen(true);
+  };
+
+  const srcOf = (img: Img | undefined): string => {
+    if (!img) return "/placeholder.svg";
+    return typeof img === "string" ? img : img.src;
+  };
 
   return (
     <>
@@ -62,8 +66,8 @@ export default function Project({
         }}
         className="group mb-3 sm:mb-8 last:mb-0"
         onClick={() => {
-          setIsOpen(true)
-          setIsDialogOpen(true)
+          setIsOpen(true);
+          setIsDialogOpen(true);
         }}
       >
         <section className="bg-gray-100 max-w-[42rem] border border-black/5 rounded-lg overflow-hidden sm:pr-8 relative sm:h-[20rem] hover:bg-gray-200 transition sm:group-even:pl-8 dark:text-white dark:bg-white/10 dark:hover:bg-white/20">
@@ -72,8 +76,8 @@ export default function Project({
             {imageUrl && (
               <div className="relative w-full h-60">
                 <Image
-                  src={imageUrl || "/placeholder.svg"}
-                  alt="Project I worked on"
+                  src={imageUrl}
+                  alt={title}
                   quality={95}
                   fill
                   className="object-cover rounded-t-lg"
@@ -83,9 +87,9 @@ export default function Project({
             <div className="pt-4 pb-7 px-5 flex flex-col h-full">
               <h3 className="text-2xl font-bold">{title}</h3>
               <p className="mt-2 leading-relaxed text-gray-700 dark:text-white/70">{description}</p>
-              {tags?.length > 0 && (
+              {tags.length > 0 && (
                 <ul className="flex flex-wrap mt-4 gap-2">
-                  {tags?.map((tag, index) => (
+                  {tags.map((tag, index) => (
                     <li
                       className="bg-black/[0.7] px-3 py-1 text-[0.7rem] uppercase tracking-wider text-white rounded-full dark:text-white/70"
                       key={index}
@@ -98,14 +102,14 @@ export default function Project({
             </div>
           </div>
 
-          {/* Desktop layout (original code) */}
+          {/* Desktop layout */}
           <div className="hidden sm:block">
             <div className="pt-4 pb-7 px-5 sm:pl-10 sm:pr-2 sm:pt-10 sm:max-w-[50%] flex flex-col h-full sm:group-even:ml-[18rem]">
               <h3 className="text-2xl font-bold">{title}</h3>
               <p className="mt-2 leading-relaxed text-gray-700 dark:text-white/70">{description}</p>
-              {tags?.length > 0 && (
+              {tags.length > 0 && (
                 <ul className="flex flex-wrap mt-4 gap-2 sm:mt-auto">
-                  {tags?.map((tag, index) => (
+                  {tags.map((tag, index) => (
                     <li
                       className="bg-black/[0.7] px-3 py-1 text-[0.7rem] uppercase tracking-wider text-white rounded-full dark:text-white/70"
                       key={index}
@@ -119,8 +123,8 @@ export default function Project({
 
             {imageUrl && (
               <Image
-                src={imageUrl || "/placeholder.svg"}
-                alt="Project I worked on"
+                src={imageUrl}
+                alt={title}
                 quality={95}
                 width={452}
                 height={320}
@@ -145,8 +149,8 @@ export default function Project({
       <Dialog
         open={isOpen}
         onOpenChange={(open) => {
-          setIsOpen(open)
-          setIsDialogOpen(open)
+          setIsOpen(open);
+          setIsDialogOpen(open);
         }}
       >
         <DialogPortal>
@@ -156,8 +160,8 @@ export default function Project({
               size="icon"
               className="absolute right-4 top-4 z-50 text-gray-950 dark:text-white/90"
               onClick={() => {
-                setIsOpen(false)
-                setIsDialogOpen(false)
+                setIsOpen(false);
+                setIsDialogOpen(false);
               }}
             >
               <X className="h-4 w-4" />
@@ -168,8 +172,8 @@ export default function Project({
                 {images.length > 0 ? (
                   <div className="relative w-full h-full">
                     <Image
-                      src={images[currentImageIndex] || "/placeholder.svg"}
-                      alt="Project image"
+                      src={images[currentImageIndex]}
+                      alt={`${title} image ${currentImageIndex + 1}`}
                       fill
                       className="object-contain p-4 cursor-pointer"
                       onClick={() => handleImageClick(currentImageIndex)}
@@ -180,9 +184,7 @@ export default function Project({
                           key={index}
                           className={cn(
                             "w-2 h-2 rounded-full transition-colors",
-                            index === currentImageIndex
-                              ? "bg-gray-950 dark:bg-white/90"
-                              : "bg-gray-500/50 dark:bg-white/50",
+                            index === currentImageIndex ? "bg-gray-950 dark:bg-white/90" : "bg-gray-500/50 dark:bg-white/50"
                           )}
                           onClick={() => setCurrentImageIndex(index)}
                         />
@@ -190,9 +192,7 @@ export default function Project({
                     </div>
                   </div>
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-500">
-                    No images available
-                  </div>
+                  <div className="w-full h-full flex items-center justify-center text-gray-500">No images available</div>
                 )}
 
                 {images.length > 0 && (
@@ -202,16 +202,11 @@ export default function Project({
                         key={index}
                         className={cn(
                           "relative flex-shrink-0 h-16 w-16 rounded-lg overflow-hidden border-2",
-                          currentImageIndex === index ? "border-gray-950 dark:border-white/90" : "border-transparent",
+                          currentImageIndex === index ? "border-gray-950 dark:border-white/90" : "border-transparent"
                         )}
                         onClick={() => handleImageClick(index)}
                       >
-                        <Image
-                          src={image || "/placeholder.svg"}
-                          alt={`Project thumbnail ${index + 1}`}
-                          fill
-                          className="object-cover"
-                        />
+                        <Image src={image} alt={`Project thumbnail ${index + 1}`} fill className="object-cover" />
                       </button>
                     ))}
                   </div>
@@ -228,17 +223,16 @@ export default function Project({
         </DialogPortal>
       </Dialog>
 
-      {isLightboxOpen && (
+      {isLightboxOpen && images.length > 0 && (
         <Lightbox
-          mainSrc={images[currentImageIndex]}
-          nextSrc={images[(currentImageIndex + 1) % images.length]}
-          prevSrc={images[(currentImageIndex + images.length - 1) % images.length]}
+          mainSrc={srcOf(images[currentImageIndex])}
+          nextSrc={srcOf(images[(currentImageIndex + 1) % images.length])}
+          prevSrc={srcOf(images[(currentImageIndex + images.length - 1) % images.length])}
           onCloseRequest={() => setIsLightboxOpen(false)}
           onMovePrevRequest={() => setCurrentImageIndex((currentImageIndex + images.length - 1) % images.length)}
           onMoveNextRequest={() => setCurrentImageIndex((currentImageIndex + 1) % images.length)}
         />
       )}
     </>
-  )
+  );
 }
-
