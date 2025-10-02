@@ -1,10 +1,7 @@
-import React from "react";
-import { CgWorkAlt } from "react-icons/cg";
-import { FaReact } from "react-icons/fa";
-import { LuGraduationCap } from "react-icons/lu";
-import crafty_mobile_application from "@/public/Crafty/crafty_mobile_application.png";
-import EaseShop from "@/public/EaseShop/EaseShop33.png";
-import magflow from "@/public/magflow/1.jpg";
+import React from "react"
+import { CgWorkAlt } from "react-icons/cg"
+import { FaReact } from "react-icons/fa"
+import { LuGraduationCap } from "react-icons/lu"
 
 export const links = [
   {
@@ -23,22 +20,17 @@ export const links = [
     name: "Skills",
     hash: "#skills",
   },
-  // {
-  //   name: "Experience",
-  //   hash: "#experience",
-  // },
   {
     name: "Contact",
     hash: "#contact",
   },
-] as const;
+] as const
 
 export const experiencesData = [
   {
     title: "Graduated bootcamp",
     location: "Miami, FL",
-    description:
-      "I graduated after 6 months of studying. I immediately found a job as a front-end developer.",
+    description: "I graduated after 6 months of studying. I immediately found a job as a front-end developer.",
     icon: React.createElement(LuGraduationCap),
     date: "2019",
   },
@@ -58,7 +50,7 @@ export const experiencesData = [
     icon: React.createElement(FaReact),
     date: "2021 - present",
   },
-] as const;
+] as const
 
 export const projectsData = [
   {
@@ -83,24 +75,24 @@ Tech Stack
 - Frontend: Flutter (Dart)
 - Backend: GraphQL, Firebase, Node.js
 - Database: MongoDB`,
-    imageUrl: crafty_mobile_application,
+    imageUrl: "/crafty/crafty_mobile_application.png",
     images: [
       "/crafty/1.png",
-      "/crafty/2.png",
-      "/crafty/3.png",
-      "/crafty/4.png",
-      "/crafty/5.png",
-      "/crafty/6.png",
-      "/crafty/7.png",
-      "/crafty/8.png",
-    ],
+"/crafty/2.png",
+"/crafty/3.png",
+"/crafty/4.png"    ,
+"/crafty/5.png",
+"/crafty/6.png",
+"/crafty/7.png",
+"/crafty/8.png",
+],
   },
   {
     title: "EaseShop",
     description:
       "An online shopping app built with Flutter, inspired by platforms like Amazon. This app provides users with a seamless shopping experience, including product browsing, search functionality, and a user-friendly interface.",
     tags: ["Flutter", "Firebase", "getX"],
-    imageUrl: EaseShop,
+    imageUrl: "/EaseShop/EaseShop33.png",
     fulldescription: `EaseShop an Online Shopping App
     
 Overview  
@@ -119,24 +111,22 @@ Tech Stack
 - Backend: Firebase, Node.js  
 - Database: Firestore  
 
-This app isn’t just about shopping—it’s about redefining convenience and style in the digital marketplace. 🚀
+This app isn't just about shopping—it's about redefining convenience and style in the digital marketplace. 🚀
   `,
-  images: [
-    "/EaseShop/1.png",
-    "/EaseShop/2.png",
-    "/EaseShop/3.png",
-    "/EaseShop/4.png",
-    "/EaseShop/5.png",
-
-
-  ],
+    images: [
+      "EaseShop/1.png",
+      "EaseShop/2.png",
+      "EaseShop/3.png",
+      "EaseShop/4.png",
+      "EaseShop/5.png",
+    ],
   },
   {
-    title: "Word Analytics",
+    title: "MagFlow",
     description:
-      "A public web app for quick analytics on text. It shows word count, character count and social media post limits.",
-    tags: ["React", "Next.js", "SQL", "Tailwind", "Framer"],
-    imageUrl: magflow,
+      "A robust, all-in-one web and mobile platform designed to streamline store management processes. Enhances operational efficiency by enabling seamless inventory tracking, order management, and sales monitoring.",
+    tags: ["React", "Next.js", "PostgreSQL", "Tailwind", "Flutter"],
+    imageUrl: "/magflow/1.jpg",
     fulldescription: `
     ## Overview
     MagFlow is a robust, all-in-one web and mobile platform designed to streamline store management processes for the Higher School of Computer Science Sidi Bel Abbès. As part of the multidisciplinary project Arcana, MagFlow enhances operational efficiency by enabling seamless inventory tracking, order management, and sales monitoring. With its responsive design and intuitive interface, MagFlow provides real-time updates and ensures easy accessibility for both store personnel and managers.
@@ -153,13 +143,9 @@ This app isn’t just about shopping—it’s about redefining convenience and s
     - * **Backend:** Node.js, GraphQL, Firebase
     - * **Database:** postgreSQL, MongoDB
   `,
-  images: [
-    "/magflow/1.jpg",
-    "/magflow/2.jpg",
-  
-  ],
+    images: ["/magflow/1.jpg", "/magflow/2.jpg"],
   },
-] as const;
+] as const
 
 export const skillsData = [
   "HTML",
@@ -180,4 +166,4 @@ export const skillsData = [
   "Python",
   "Django",
   "Framer Motion",
-] as const;
+] as const

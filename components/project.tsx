@@ -10,8 +10,8 @@ import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import FormattedDescription from "@/components/FormattedDescription";
 import { useDialog } from "@/context/dialog-context";
-import Lightbox from "react-image-lightbox";
-import "react-image-lightbox/style.css";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 type Img = StaticImageData | string;
 
@@ -155,6 +155,7 @@ export default function Project({
       >
         <DialogPortal>
           <DialogContent className="max-w-[95vw] max-h-[95vh] w-full h-full p-0 md:max-w-6xl md:h-[80vh]">
+
             <Button
               variant="ghost"
               size="icon"
@@ -225,6 +226,8 @@ export default function Project({
 
       {isLightboxOpen && images.length > 0 && (
         <Lightbox
+          open={isLightboxOpen}
+          close={() => setIsLightboxOpen(false)}
           mainSrc={srcOf(images[currentImageIndex])}
           nextSrc={srcOf(images[(currentImageIndex + 1) % images.length])}
           prevSrc={srcOf(images[(currentImageIndex + images.length - 1) % images.length])}
