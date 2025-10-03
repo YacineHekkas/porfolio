@@ -13,3 +13,93 @@ html.dark {
 .borderBlack {
   @apply border border-black/10;
 }
+/* -----------------------------
+  Animated background blobs
+   - 3 blobs with different paths, speeds, scales
+   - mix-blend-mode for tasteful color blending
+   - respects prefers-reduced-motion
+   - supports dark mode by switching colors via .dark on body
+   ----------------------------- */
+
+/* base blob style */
+.site-blob {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 9999px;
+  filter: blur(120px);
+  opacity: 0.85;
+  mix-blend-mode: screen; /* try overlay for a different look */
+  will-change: transform, opacity;
+  z-index: -50; /* keep behind content; adjust if needed */
+}
+
+/* light + dark colors */
+.site-blob.blob-1 { background: #fbe2e3; }
+.site-blob.blob-2 { background: #dbd7fb; }
+.site-blob.blob-3 { background: #f7e7d8; }
+
+/* dark mode colors override */
+.dark .site-blob.blob-1 { background: #946263; opacity: 0.8; }
+.dark .site-blob.blob-2 { background: #676394; opacity: 0.85; }
+.dark .site-blob.blob-3 { background: #6b5560; opacity: 0.7; }
+
+/* sizes & starting positions (use vw/vh so they adapt to viewport) */
+.site-blob.blob-1 {
+  width: 62vw;
+  height: 62vw;
+  top: -12vh;
+  right: -8vw;
+  animation: blob-drift-1 28s cubic-bezier(.25,.8,.25,1) infinite;
+  animation-delay: 0s;
+}
+.site-blob.blob-2 {
+  width: 72vw;
+  height: 52vw;
+  top: -6vh;
+  left: -18vw;
+  animation: blob-drift-2 34s cubic-bezier(.25,.8,.25,1) infinite;
+  animation-delay: 2s;
+  mix-blend-mode: overlay; /* different blend for variety */
+  opacity: 0.9;
+  filter: blur(140px);
+}
+.site-blob.blob-3 {
+  width: 50vw;
+  height: 50vw;
+  bottom: -10vh;
+  left: 10vw;
+  animation: blob-drift-3 40s ease-in-out infinite;
+  animation-delay: 6s;
+  opacity: 0.7;
+  filter: blur(100px);
+}
+
+/* keyframes - each follows a different path/behavior */
+@keyframes blob-drift-1 {
+  0%   { transform: translate3d(0,0,0) rotate(0deg) scale(1);  opacity: .85; }
+  25%  { transform: translate3d(-6vw, -6vh, 0) rotate(8deg)  scale(1.06); opacity: .95; }
+  50%  { transform: translate3d(-2vw, 8vh, 0)  rotate(18deg) scale(0.94); opacity: .8; }
+  75%  { transform: translate3d(10vw, 2vh, 0)  rotate(12deg) scale(1.02); opacity: .9; }
+  100% { transform: translate3d(0,0,0)    rotate(0deg)  scale(1);  opacity: .85; }
+}
+
+@keyframes blob-drift-2 {
+  0%   { transform: translate3d(0,0,0) rotate(0deg) scale(1);  opacity: .9; }
+  20%  { transform: translate3d(12vw, -8vh, 0) rotate(-10deg) scale(1.08); opacity: .95; }
+  40%  { transform: translate3d(6vw, 10vh, 0) rotate(-2deg)  scale(0.96); opacity: .85; }
+  60%  { transform: translate3d(-10vw, 6vh, 0) rotate(6deg)  scale(1.04); opacity: .9; }
+  80%  { transform: translate3d(-4vw, -4vh, 0) rotate(2deg)  scale(0.98); opacity: .9; }
+  100% { transform: translate3d(0,0,0) rotate(0deg) scale(1); opacity: .9; }
+}
+
+@keyframes blob-drift-3 {
+  0%   { transform: translate3d(0,0,0) rotate(0deg) scale(1); opacity: .7; }
+  30%  { transform: translate3d(-8vw, -10vh, 0) rotate(25deg) scale(1.12); opacity: .85; }
+  60%  { transform: translate3d(10vw, 6vh, 0) rotate(-15deg) scale(0.9); opacity: .65; }
+  100% { transform: translate3d(0,0,0) rotate(0deg) scale(1); opacity: .7; }
+}
+
+/* make animations less intense on small screens to avoid visual clutter */
+@media (max-width: 640px) {
+  .site-blob.blob-1 { width: 110vw; height: 110vw; right: -35vw; top: -25vh; filter: bl
+  }}
