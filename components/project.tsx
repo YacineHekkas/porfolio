@@ -18,10 +18,10 @@ type Img = StaticImageData | string;
 type ProjectProps = {
   title: string;
   description: string;
-  tags?: readonly string[];      // accept readonly tags
+  tags?: readonly string[];
   imageUrl?: Img;
   fulldescription: string;
-  images?: readonly Img[];       // <-- accept readonly Img[]
+  images?: readonly Img[];
 };
 
 export default function Project({
@@ -55,6 +55,9 @@ export default function Project({
     if (!img) return "/placeholder.svg";
     return typeof img === "string" ? img : img.src;
   };
+
+  // Build slides for the lightbox (simple { src } shape)
+  const slides = (images ?? []).map((img) => ({ src: srcOf(img) }));
 
   return (
     <>
@@ -155,7 +158,6 @@ export default function Project({
       >
         <DialogPortal>
           <DialogContent className="max-w-[95vw] max-h-[95vh] w-full h-full p-0 md:max-w-6xl md:h-[80vh]">
-
             <Button
               variant="ghost"
               size="icon"
@@ -224,18 +226,15 @@ export default function Project({
         </DialogPortal>
       </Dialog>
 
-      {isLightboxOpen && images.length > 0 && (
-        <Lightbox
-          open={isLightboxOpen}
-          close={() => setIsLightboxOpen(false)}
-          mainSrc={srcOf(images[currentImageIndex])}
-          nextSrc={srcOf(images[(currentImageIndex + 1) % images.length])}
-          prevSrc={srcOf(images[(currentImageIndex + images.length - 1) % images.length])}
-          onCloseRequest={() => setIsLightboxOpen(false)}
-          onMovePrevRequest={() => setCurrentImageIndex((currentImageIndex + images.length - 1) % images.length)}
-          onMoveNextRequest={() => setCurrentImageIndex((currentImageIndex + 1) % images.length)}
-        />
-      )}
+      {/* Minimal, stable Lightbox usage.
+          We set index so the lightbox opens at the clicked slide.
+          (If you want two-way sync when user navigates inside the lightbox, I can add the controller/ref approach.) */}
+      <Lightbox
+        open={isLightboxOpen}
+        close={() => setIsLightboxOpen(false)}
+        slides={slides}
+        index={currentImageIndex}
+      />
     </>
   );
 }
